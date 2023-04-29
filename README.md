@@ -9,6 +9,7 @@ You need SDL2, see [instructions here](https://blog.logrocket.com/using-sdl2-bin
 
 On MacOS, ensure you have `LIBRARY_PATH` environment variable set to locate your `libSDL2.a`, or linking will fail.
 
+
 ## Running the examples
 
 ```bash

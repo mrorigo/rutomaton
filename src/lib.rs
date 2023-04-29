@@ -5,23 +5,11 @@ use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 use sdl2::pixels::Color;
 use sdl2::rect::Rect;
-use std::collections::HashMap;
 use std::time::Duration;
 
-type State = u64;
-type AutomatonRules = Vec<HashMap<i64, State>>;
+pub type State = u64;
+pub type AutomatonRules = Vec<&'static phf::Map<i64, State>>;
 
-#[macro_export]
-macro_rules! transitions {
-    ($default: expr, $( $key: expr => $val: expr ),*) => {{
-         let mut map = ::std::collections::HashMap::new();
-         $( map.insert($key, $val); )*
-         map.insert(-1, $default);
-         map
-    }}
-}
-
-#[derive(Clone)]
 pub struct Automaton {
     pub colors: Vec<Color>,
     pub rules: AutomatonRules,

@@ -1,7 +1,8 @@
-use rutomaton::transitions;
+use phf::phf_map;
 use rutomaton::visualize;
 use rutomaton::Automaton;
 use rutomaton::Board;
+use rutomaton::State;
 
 pub fn main() {
     let colors = vec![
@@ -9,10 +10,18 @@ pub fn main() {
         sdl2::pixels::Color::RGB(25, 25, 255),
     ];
 
-    let sd = Automaton::new(vec![transitions![0, 26 => 1], transitions![0,]], colors);
-
     let mut i = 0;
-    let mut board = Board::new(sd.clone(), 100, 100);
+
+    static GOL_0: phf::Map<i64, State> = phf_map! {
+        26i64 => 1,
+        -1i64 => 0
+    };
+    static GOL_1: phf::Map<i64, State> = phf_map! {
+        -1i64 => 0
+    };
+
+    let gol = Automaton::new(vec![&GOL_0, &GOL_1], colors);
+    let mut board = Board::new(gol, 100, 100);
 
     visualize(&mut board, 8, &mut |board| {
         if i % 200 == 0 {
@@ -21,6 +30,6 @@ pub fn main() {
             }
         }
         i += 1;
-        board.fill_random(20, 0.3, Some(sd.rules.len() as u8 - 1));
+        board.fill_random(20, 0.3, Some(board.automaton.rules.len() as u8 - 1));
     });
 }
