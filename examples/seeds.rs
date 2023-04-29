@@ -9,7 +9,7 @@ pub fn main() {
         sdl2::pixels::Color::RGB(25, 25, 255),
     ];
 
-    let sd = Automaton::new(vec![transitions![0, 62 => 1], transitions![0,]], colors);
+    let sd = Automaton::new(vec![transitions![0, 26 => 1], transitions![0,]], colors);
 
     let mut i = 0;
     let mut board = Board::new(sd.clone(), 100, 100);
@@ -21,6 +21,6 @@ pub fn main() {
             }
         }
         i += 1;
-        board.fill_random(2, 0.2, Some(sd.rules.len() as u8 - 1));
+        board.fill_random(20, 0.3, Some(sd.rules.len() as u8 - 1));
     });
 }

@@ -40,7 +40,6 @@ pub struct Board {
     pub next_state: usize,
     pub automaton: Automaton,
     pub states: Vec<Vec<State>>,
-    nbors: Vec<State>,
 }
 
 impl Board {
@@ -48,7 +47,6 @@ impl Board {
         let len = (width * height) as usize;
         let curr_state = vec![0; len];
         let next_state = vec![0; len];
-        let nbors = vec![0; automaton.rules.len()];
         Board {
             width,
             height,
@@ -56,7 +54,6 @@ impl Board {
             next_state: 1,
             automaton,
             states: vec![curr_state, next_state],
-            nbors,
         }
     }
 
@@ -131,25 +128,17 @@ impl Board {
 
     // Returns integer-encoded form for the neighbors, one digit per state
     fn get_nbors(&mut self, x: i32, y: i32) -> i32 {
-        for i in 0..self.nbors.len() {
-            self.nbors[i] = 0;
-        }
+        let mut val: i32 = 0;
         for yy in y - 1..=y + 1 {
             for xx in x - 1..=x + 1 {
                 if xx - x == 0 && yy - y == 0 {
                     continue;
                 }
                 let state = self.get_curr_cell(xx, yy);
-                self.nbors[state as usize] += 1;
+                val += (10 as u32).pow(state as u32) as i32;
             }
         }
-
-        let mut val: u32 = 0;
-        for i in 0..self.nbors.len() {
-            val *= 10;
-            val += self.nbors[i] as u32;
-        }
-        val as i32
+        val
     }
 }
 

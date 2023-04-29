@@ -10,7 +10,7 @@ pub fn main() {
     ];
 
     let gol = Automaton::new(
-        vec![transitions![0, 53 => 1], transitions![0, 53 => 1, 62 => 1]],
+        vec![transitions![0, 35 => 1], transitions![0, 35 => 1, 26 => 1]],
         colors,
     );
     let mut board = Board::new(gol.clone(), 100, 100);
